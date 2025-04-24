@@ -1,11 +1,22 @@
-# cibersecurity-desafio-ransomware
-Desafio de projeto Ransomware
-Este desafio de projeto faz parte do conteúdo abordado pelo Santander Bootcamp Cibersegurança, realizado pela DIO em parceria com o Santander Universidades.
+import os
+import pyaes
 
-Sobre o projeto
-Este projeto foi criado utilizando Python e faz uso da biblioteca pyaes para realizar a encriptação.
+## abrir o arquivo criptografado
+file_name = "teste.txt.ransomwaretroll"
+file = open(file_name, "rb")
+file_data = file.read()
+file.close()
 
-Arquivos do projeto
-teste.txt: Arquivo que será criptografado
-encrypter.py: Código que irá criptografar o arquivo teste.txt, alterando a sua extensão para teste.txt.ransomwaretroll e deixando seu conteúdo criptografado.
-decrypter.py: Código que irá descriptografar o arquivo teste.txt.ransomwaretroll
+## chave para descriptografia
+key = b"testeransomwares"
+aes = pyaes.AESModeOfOperationCTR(key)
+decrypt_data = aes.decrypt(file_data)
+
+## remover o arquivo criptografado
+os.remove(file_name)
+
+## criar o arquivo descriptografado
+new_file = "teste.txt"
+new_file = open(f'{new_file}', "wb")
+new_file.write(decrypt_data)
+new_file.close()
